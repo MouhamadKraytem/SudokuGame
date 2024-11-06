@@ -35,7 +35,7 @@ function App() {
   return (
     <div className="app">
       <Board board={board} onCellClick={handleCellClick} duplicates={duplicates} />
-      <SelectionBar onSelect={handleNumberSelect} selectedValue={selectedNumber}/>
+      <SelectionBar onSelect={handleNumberSelect} selectedValue={selectedNumber} board={board}/>
       <p>Selected Number: {selectedNumber}</p>
     </div>
   );
