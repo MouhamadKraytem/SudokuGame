@@ -1,0 +1,26 @@
+.difficulty-select {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.difficulty-button {
+  font-size: 16px;
+  margin: 0 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.difficulty-button:hover {
+  background-color: #ddd;
+}
+
+.difficulty-button.active {
+  background-color: #4CAF50; /* Green background for selected difficulty */
+  color: white; /* White text for selected difficulty */
+  border-color: #4CAF50; /* Match border with the background */
+}

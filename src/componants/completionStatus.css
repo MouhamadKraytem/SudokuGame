@@ -1,0 +1,15 @@
+.completion-status {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 20px;
+}
+
+.complete-message {
+  color: green;
+  font-weight: bold;
+}
+
+.incomplete-message {
+  color: red;
+  font-weight: bold;
+}
