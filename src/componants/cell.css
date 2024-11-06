@@ -1,0 +1,38 @@
+/* src/components/cell.css */
+
+.cell-container {
+  width: 50px;                /* Width of each cell */
+  height: 50px;               /* Height of each cell */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;     /* Light border for each cell */
+  font-size: 24px;            /* Font size for cell value */
+  font-weight: bold;
+  color: #333;                /* Dark text color */
+  background-color: #f9f9f9;  /* Light background color */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cell-container:hover {
+  background-color: #e0e0e0;  /* Slightly darker background on hover */
+}
+
+.cell-container.duplicate {
+  background-color: #ffdddd; /* Light red background for duplicates */
+  border-color: #ff6666;     /* Red border for duplicates */
+}
+.cell-container:nth-child(3n + 3) {
+  border-right: 2px solid #333;  /* Thicker right border every 3rd cell */
+}
+
+.cell-container:nth-child(n + 19) {
+  border-bottom: 2px solid #333; /* Thicker bottom border every 3rd row */
+}
+
+.value {
+  margin: 0;
+}
+
+

@@ -1,0 +1,29 @@
+/* src/components/Board.css */
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr); /* Create 9 equal columns */
+  gap: 1px;                              /* Small gap between cells */
+}
+
+.board-row {
+  display: contents;                      /* Use contents to avoid extra row divs */
+}
+
+.cell-container {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;                /* Light border */
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.cell-container:hover {
+  background-color: #e0e0e0;             /* Hover effect */
+}
