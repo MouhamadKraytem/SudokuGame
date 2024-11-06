@@ -25,3 +25,11 @@
   color: white;
 }
 
+.selection-button:hover{
+   border: 1px solid #000000;
+}
+
+.selection-button.verify-button{
+  width: 60px;
+  background-color: #25ff3b;
+}

@@ -28,7 +28,12 @@ export default function SelectionBar({ onSelect, selectedValue }: SelectionBarPr
 					{number}
 				</button>
 			))}
-
+			<button 
+				className='selection-button verify-button'
+				
+				>
+				verify
+			</button>
 		</div>
 	);
 }
