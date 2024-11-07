@@ -1,6 +1,7 @@
 import React from 'react'
 import Cell from './Cell';
 import './board.css'
+import { log } from 'console';
 
 
 type BoardProps = {
@@ -12,6 +13,17 @@ type BoardProps = {
 
 
 export default function Board({ board, onCellClick, duplicates }: BoardProps) {
+	function printBoard(): void {
+		for (let row = 0; row < 9; row++) {
+			let rowValues = '';
+			for (let col = 0; col < 9; col++) {
+				rowValues += board[row][col].value + ' ';
+			}
+			console.log(rowValues.trim()); // Trim trailing spaces
+		}
+		console.log("#############################");
+	}
+	printBoard();
 	return (
 		<div className="board">
 			{board.map((row, rowIndex) => (

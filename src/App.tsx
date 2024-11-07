@@ -13,17 +13,18 @@ import { findDuplicates } from './utils/findDuplicates';
 import { generatePuzzle } from './utils/generateBoard';
 
 type Cell = { value: number; isEditable: boolean };
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 type Board = Cell[][];
 function App() {
-  const initialBoard = generatePuzzle("easy");
-  const [board, setBoard] = useState<Board>(initialBoard);
-  const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
-  const [selectedDifficulty, setSelectedDifficulty] = useState<'easy' | 'medium' | 'hard'>('easy');
-  const [duplicates, setDuplicates] = useState<{ [key: string]: boolean }>({});
-  
-  const handleNumberSelect = (number: number | null) => {
-    setSelectedNumber(number);
-  };
+	const initialBoard = generatePuzzle("easy");
+	const [board, setBoard] = useState<Board>(initialBoard);
+	const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
+	const [selectedDifficulty, setSelectedDifficulty] = useState<'easy' | 'medium' | 'hard'>('easy');
+	const [duplicates, setDuplicates] = useState<{ [key: string]: boolean }>({});
+
+	const handleNumberSelect = (number: number | null) => {
+		setSelectedNumber(number);
+	};
 
 	const handleCellClick = (row: number, col: number) => {
 		if (!board[row][col].isEditable) return; // Only allow clicks on editable cells
@@ -40,21 +41,21 @@ function App() {
 		setDuplicates(findDuplicates(newBoard.map(row => row.map(cell => cell.value))));
 	};
 
-  const handleDifficultyChange = (difficulty: 'easy' | 'medium' | 'hard') => {
-    setSelectedDifficulty(difficulty);  // Update the selected difficulty state
-    const newBoard = generatePuzzle(difficulty);
-    setBoard(newBoard);
-    setDuplicates({});
-    setSelectedNumber(null); // Optionally clear the selected number
-  };
+	const handleDifficultyChange = (difficulty: 'easy' | 'medium' | 'hard') => {
+		setSelectedDifficulty(difficulty);  // Update the selected difficulty state
+		const newBoard = generatePuzzle(difficulty);
+		setBoard(newBoard);
+		setDuplicates({});
+		setSelectedNumber(null); // Optionally clear the selected number
+	};
 
-  return (
-    <div className="app">
-      <Board board={board} onCellClick={handleCellClick} duplicates={duplicates} />
-      <SelectionBar onSelect={handleNumberSelect} selectedValue={selectedNumber} board={board}/>
-      <DifficultySelect onDifficultyChange={handleDifficultyChange} selectedDifficulty={selectedDifficulty} />
-    </div>
-  );
+	return (
+		<div className="app">
+			<DifficultySelect onDifficultyChange={handleDifficultyChange} selectedDifficulty={selectedDifficulty} />
+			<Board board={board} onCellClick={handleCellClick} duplicates={duplicates} />
+			<SelectionBar onSelect={handleNumberSelect} selectedValue={selectedNumber} board={board} />
+		</div>
+	);
 }
 
 export default App;

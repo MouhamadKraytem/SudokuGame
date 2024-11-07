@@ -33,6 +33,12 @@ function DiffuctySelect({ onDifficultyChange, selectedDifficulty }: DifficultySe
 			>
 				Hard
 			</button>
+			<button
+				className='difficulty-button'
+				onClick={()=>{console.log();}}
+			>
+				import game
+			</button>
 		</div>
 	);
 }

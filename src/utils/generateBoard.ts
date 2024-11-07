@@ -1,7 +1,9 @@
 type Cell = { value: number; isEditable: boolean };
 type Board = Cell[][];
+
 const EMPTY = 0;
 
+// Generate puzzle based on difficulty
 export function generatePuzzle(difficulty: "easy" | "medium" | "hard"): Board {
 	const board = createFullBoard();
 	const clues = getCluesCount(difficulty);
@@ -9,15 +11,17 @@ export function generatePuzzle(difficulty: "easy" | "medium" | "hard"): Board {
 	return board;
 }
 
-// 1. Create a complete board using backtracking.
+// Create a valid, filled board using backtracking
 function createFullBoard(): Board {
 	const board: Board = Array.from({ length: 9 }, () =>
-		Array(9).fill({ value: EMPTY, isEditable: true })
+		Array.from({ length: 9 }, () => ({ value: EMPTY, isEditable: true }))
 	);
+
 	fillBoard(board);
 	return board;
 }
 
+// Backtracking to fill the board with valid numbers
 function fillBoard(board: Board): boolean {
 	for (let row = 0; row < 9; row++) {
 		for (let col = 0; col < 9; col++) {
@@ -25,33 +29,64 @@ function fillBoard(board: Board): boolean {
 				const numbers = shuffleArray([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 				for (const num of numbers) {
 					if (isSafe(board, row, col, num)) {
-						board[row][col] = { value: num, isEditable: false }; // Fill with a fixed number
+						board[row][col] = { value: num, isEditable: false };
 						if (fillBoard(board)) return true;
 						board[row][col] = { value: EMPTY, isEditable: true }; // Backtrack
 					}
 				}
-				return false;
+				return false; // No valid number found, backtrack
 			}
 		}
 	}
-	return true;
+	return true; // Board is complete
 }
 
-// 2. Remove cells based on difficulty.
-// 2. Remove cells based on difficulty to create a solvable puzzle.
+// Helper function to check if a number is safe to place
+function isSafe(board: Board, row: number, col: number, num: number): boolean {
+	return (
+		!board[row].some((cell) => cell.value === num) && // Check row
+		!board.some((r) => r[col].value === num) && // Check column
+		!get3x3Grid(board, row, col).some((cell) => cell.value === num) // Check 3x3 grid
+	);
+}
+
+// Helper function to get the 3x3 grid for a given cell
+function get3x3Grid(board: Board, row: number, col: number): Cell[] {
+	const startRow = Math.floor(row / 3) * 3;
+	const startCol = Math.floor(col / 3) * 3;
+	const grid: Cell[] = [];
+	for (let r = startRow; r < startRow + 3; r++) {
+		for (let c = startCol; c < startCol + 3; c++) {
+			grid.push(board[r][c]);
+		}
+	}
+	return grid;
+}
+
+// Shuffle the array randomly
+function shuffleArray<T>(array: T[]): T[] {
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+	return array;
+}
+
+// Function to determine the number of clues based on difficulty
 function getCluesCount(difficulty: "easy" | "medium" | "hard"): number {
 	switch (difficulty) {
 		case "easy":
-			return 44; // Around 44 clues
+			return 55; // Easier puzzle with more clues
 		case "medium":
-			return 32; // Around 32 clues
+			return 32; // Moderate puzzle
 		case "hard":
-			return 28; // Around 28 clues
+			return 28; // Harder puzzle with fewer clues
 		default:
-			return 36;
+			return 36; // Default medium
 	}
 }
 
+// Remove cells from the board to create the puzzle
 function removeCells(board: Board, cellsToRemove: number): void {
 	let removed = 0;
 	const cells: [number, number][] = [];
@@ -69,13 +104,13 @@ function removeCells(board: Board, cellsToRemove: number): void {
 	for (const [row, col] of cells) {
 		if (board[row][col].value !== EMPTY) {
 			const backup = board[row][col].value;
-			board[row][col] = { value: EMPTY, isEditable: true }; // Make the cell editable and empty
+			board[row][col] = { value: EMPTY, isEditable: true };
 
 			// Check if the puzzle still has a unique solution
 			if (hasUniqueSolution(board)) {
 				removed++;
 			} else {
-				board[row][col] = { value: backup, isEditable: false }; // Restore if no unique solution
+				board[row][col] = { value: backup, isEditable: false };
 			}
 
 			if (removed === cellsToRemove) {
@@ -85,10 +120,11 @@ function removeCells(board: Board, cellsToRemove: number): void {
 	}
 }
 
-
-// 3. Check if the board has a unique solution.
+// Function to check if the puzzle has a unique solution
 function hasUniqueSolution(board: Board): boolean {
 	let solutions = 0;
+
+	// Try to solve the board recursively
 	function solve(board: Board): boolean {
 		for (let row = 0; row < 9; row++) {
 			for (let col = 0; col < 9; col++) {
@@ -98,46 +134,18 @@ function hasUniqueSolution(board: Board): boolean {
 							board[row][col] = { value: num, isEditable: false };
 							if (solve(board)) {
 								solutions++;
-								if (solutions > 1) return true; // Stop if more than one solution
+								if (solutions > 1) return false; // More than one solution found
 							}
-							board[row][col] = { value: EMPTY, isEditable: true };
+							board[row][col] = { value: EMPTY, isEditable: true }; // Backtrack
 						}
 					}
-					return false;
+					return false; // No solution found
 				}
 			}
 		}
-		return true;
+		return true; // Puzzle solved
 	}
+
 	solve(board);
-	return solutions === 1;
-}
-// Utility functions
-// Utility functions
-function isSafe(board: Board, row: number, col: number, num: number): boolean {
-	return (
-		!board[row].some(cell => cell.value === num) && // Check row
-		!board.some(r => r[col].value === num) &&       // Check column
-		!get3x3Grid(board, row, col).some(cell => cell.value === num) // Check 3x3 grid
-	);
-}
-
-function get3x3Grid(board: Board, row: number, col: number): Cell[] {
-	const startRow = Math.floor(row / 3) * 3;
-	const startCol = Math.floor(col / 3) * 3;
-	const grid: Cell[] = [];
-	for (let r = startRow; r < startRow + 3; r++) {
-		for (let c = startCol; c < startCol + 3; c++) {
-			grid.push(board[r][c]);
-		}
-	}
-	return grid;
-}
-
-function shuffleArray<T>(array: T[]): T[] {
-	for (let i = array.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		[array[i], array[j]] = [array[j], array[i]];
-	}
-	return array;
+	return solutions === 1; // Ensure only one solution
 }
