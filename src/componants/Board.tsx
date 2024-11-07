@@ -4,7 +4,7 @@ import './board.css'
 
 
 type BoardProps = {
-	board: number[][];  
+	board: { value: number; isEditable: boolean }[][];
 	onCellClick: (row: number, col: number) => void;
 	duplicates: { [key: string]: boolean };
 };
@@ -12,16 +12,15 @@ type BoardProps = {
 
 
 export default function Board({ board, onCellClick, duplicates }: BoardProps) {
-	console.log(board);
-	
 	return (
 		<div className="board">
 			{board.map((row, rowIndex) => (
 				<div key={rowIndex} className="board-row">
-					{row.map((value, colIndex) => (
+					{row.map((cell, colIndex) => (
 						<Cell
 							key={colIndex}
-							value={value}
+							value={cell.value}
+							isEditable={cell.isEditable}
 							onClick={() => onCellClick(rowIndex, colIndex)}
 							isDuplicate={duplicates[`${rowIndex}-${colIndex}`]}
 						/>

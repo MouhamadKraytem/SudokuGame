@@ -35,4 +35,15 @@
   margin: 0;
 }
 
+.cell-container.non-editable {
+  color: #333;
+  cursor: default;
+}
 
+.cell-container.editable {
+
+  cursor: pointer;
+}
+.cell-container.editable:hover {
+  background-color: #b8b8b8;  /* Slightly darker background on hover */
+}
