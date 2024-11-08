@@ -1,0 +1,25 @@
+.manual-grid-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px 0;
+  font-family: Arial, sans-serif;
+}
+
+.manual-grid-container h1 {
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.manual-grid-container > *:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .manual-grid-container {
+    padding: 1rem;
+  }
+}

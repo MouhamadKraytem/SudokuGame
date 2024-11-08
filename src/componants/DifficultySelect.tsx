@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { useNavigate } from 'react-router-dom';
 
 //css
 import "./difficultySelect.css";
@@ -10,6 +10,7 @@ type DifficultySelectProps = {
 };
 
 function DiffuctySelect({ onDifficultyChange, selectedDifficulty }: DifficultySelectProps) {
+	const navigate = useNavigate();
 	return (
 		<div className="difficulty-select">
 			<button
@@ -35,7 +36,7 @@ function DiffuctySelect({ onDifficultyChange, selectedDifficulty }: DifficultySe
 			</button>
 			<button
 				className='difficulty-button'
-				onClick={()=>{console.log();}}
+				onClick={() => navigate('/manual')}  
 			>
 				import game
 			</button>

@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 //css
 import './App.css';
 
 //componant
-import SelectionBar from './componants/SelectionBar';
-import Board from './componants/Board';
-import DifficultySelect from './componants/DifficultySelect';
+import SelectionBar from '../componants/SelectionBar';
+import Board from '../componants/Board';
+import DifficultySelect from '../componants/DifficultySelect';
 
 //utils
-import { findDuplicates } from './utils/findDuplicates';
-import { generatePuzzle } from './utils/generateBoard';
+import {generatePuzzle} from '../utils/generateBoard'
+import { findDuplicates } from '../utils/findDuplicates'
 
 type Cell = { value: number; isEditable: boolean };
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 type Board = Cell[][];
-function App() {
+
+interface AppProps {
+	customBoard?: Board | null;
+}
+function App({ customBoard }: AppProps) {
 	const initialBoard = generatePuzzle("easy");
 	const [board, setBoard] = useState<Board>(initialBoard);
 	const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
@@ -49,11 +53,23 @@ function App() {
 		setSelectedNumber(null); // Optionally clear the selected number
 	};
 
+	useEffect(() => {
+		if (customBoard) {
+			setBoard(customBoard);
+		}
+	}, [customBoard]);
+	
 	return (
 		<div className="app">
 			<DifficultySelect onDifficultyChange={handleDifficultyChange} selectedDifficulty={selectedDifficulty} />
 			<Board board={board} onCellClick={handleCellClick} duplicates={duplicates} />
-			<SelectionBar onSelect={handleNumberSelect} selectedValue={selectedNumber} board={board} />
+			<SelectionBar
+				onSelect={handleNumberSelect}
+				selectedValue={selectedNumber}
+				board={board}
+				verifyOrSubmit={true}  // or false, depending on the desired behavior
+			/>
+
 		</div>
 	);
 }

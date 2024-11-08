@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './selectionBar.css';
 import { isBoardComplete } from "../utils/isBoardCompleted";
+import { useNavigate } from 'react-router-dom';
 
 type Cell = { value: number; isEditable: boolean };
 type Board = Cell[][];
@@ -9,11 +10,14 @@ type SelectionBarProps = {
 	onSelect: (value: number | null) => void; // Callback to handle selected value
 	selectedValue: number | null;
 	board: Board; // Updated type to reflect the board with Cell objects
+	verifyOrSubmit?:boolean;
+	onSubmit?: (board: Board) => void;
 };
 
-export default function SelectionBar({ onSelect, selectedValue, board }: SelectionBarProps) {
-	const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
+export default function SelectionBar({ onSelect, selectedValue, board, verifyOrSubmit, onSubmit }: SelectionBarProps) {
+	const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+	const navigate = useNavigate();
 	const [showCompletionStatus, setShowCompletionStatus] = useState(false);
 	const [isComplete, setIsComplete] = useState(false);
 
@@ -23,7 +27,11 @@ export default function SelectionBar({ onSelect, selectedValue, board }: Selecti
 		setIsComplete(complete);
 		setShowCompletionStatus(true);
 	};
-
+	const handleSubmit = () => {
+		if (onSubmit) {
+			onSubmit(board); // Trigger the submission with the current board state
+		}
+	};
 	return (
 		<div className="selection-bar">
 			{/* Display numbers for selection */}
@@ -42,12 +50,12 @@ export default function SelectionBar({ onSelect, selectedValue, board }: Selecti
 					{number}
 				</button>
 			))}
-			{/* Verify Button */}
+			
 			<button
 				className='selection-button verify-button'
-				onClick={handleVerifyClick}
+				onClick={verifyOrSubmit ? handleVerifyClick : handleSubmit}
 			>
-				Verify
+				{verifyOrSubmit ? "Verify" : "Submit"}
 			</button>
 
 			{/* Completion status popup */}

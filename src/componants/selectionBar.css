@@ -30,7 +30,8 @@
 }
 
 .selection-button.verify-button{
-  width: 60px;
+  text-align: center;
+  width: 80px;
   background-color: #25ff3b;
 }
 

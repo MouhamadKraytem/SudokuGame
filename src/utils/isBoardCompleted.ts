@@ -1,4 +1,4 @@
-import { log } from "console";
+
 
 export const isBoardComplete = (
 	board: { value: number; isEditable: boolean }[][]
