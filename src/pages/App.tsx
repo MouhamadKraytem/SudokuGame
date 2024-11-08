@@ -16,10 +16,8 @@ type Cell = { value: number; isEditable: boolean };
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 type Board = Cell[][];
 
-interface AppProps {
-	customBoard?: Board | null;
-}
-function App({ customBoard }: AppProps) {
+
+function App() {
 	const initialBoard = generatePuzzle("easy");
 	const [board, setBoard] = useState<Board>(initialBoard);
 	const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
@@ -53,12 +51,7 @@ function App({ customBoard }: AppProps) {
 		setSelectedNumber(null); // Optionally clear the selected number
 	};
 
-	useEffect(() => {
-		if (customBoard) {
-			setBoard(customBoard);
-		}
-	}, [customBoard]);
-	
+
 	return (
 		<div className="app">
 			<DifficultySelect onDifficultyChange={handleDifficultyChange} selectedDifficulty={selectedDifficulty} />

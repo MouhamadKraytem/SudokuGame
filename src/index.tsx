@@ -15,16 +15,11 @@ type Cell = { value: number; isEditable: boolean };
 type Board = Cell[][];
 
 function Main() {
-  const [customBoard, setCustomBoard] = useState<Board | null>(null);
-
-  const handleBoardSubmit = (board: Board) => {
-    setCustomBoard(board);
-  };
 
   return (
     <Routes>
-      <Route path="/" element={<App customBoard={customBoard} />} />
-      <Route path="/manual" element={<ManualBoard onSubmitBoard={handleBoardSubmit} />} />
+      <Route path="/" element={<App />} />
+      <Route path="/manual" element={<ManualBoard />} />
     </Routes>
   );
 }

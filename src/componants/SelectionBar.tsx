@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './selectionBar.css';
 import { isBoardComplete } from "../utils/isBoardCompleted";
-import { useNavigate } from 'react-router-dom';
 
 type Cell = { value: number; isEditable: boolean };
 type Board = Cell[][];
@@ -15,9 +14,8 @@ type SelectionBarProps = {
 };
 
 
-export default function SelectionBar({ onSelect, selectedValue, board, verifyOrSubmit, onSubmit }: SelectionBarProps) {
+export default function SelectionBar({ onSelect, selectedValue, board, verifyOrSubmit }: SelectionBarProps) {
 	const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-	const navigate = useNavigate();
 	const [showCompletionStatus, setShowCompletionStatus] = useState(false);
 	const [isComplete, setIsComplete] = useState(false);
 
@@ -27,10 +25,8 @@ export default function SelectionBar({ onSelect, selectedValue, board, verifyOrS
 		setIsComplete(complete);
 		setShowCompletionStatus(true);
 	};
-	const handleSubmit = () => {
-		if (onSubmit) {
-			onSubmit(board); // Trigger the submission with the current board state
-		}
+	const handleSolve = () => {
+
 	};
 	return (
 		<div className="selection-bar">
@@ -53,9 +49,9 @@ export default function SelectionBar({ onSelect, selectedValue, board, verifyOrS
 			
 			<button
 				className='selection-button verify-button'
-				onClick={verifyOrSubmit ? handleVerifyClick : handleSubmit}
+				onClick={verifyOrSubmit ? handleVerifyClick : handleSolve}
 			>
-				{verifyOrSubmit ? "Verify" : "Submit"}
+				{verifyOrSubmit ? "Verify" : "Solve"}
 			</button>
 
 			{/* Completion status popup */}

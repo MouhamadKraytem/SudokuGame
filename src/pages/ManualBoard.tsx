@@ -13,11 +13,8 @@ type Cell = { value: number; isEditable: boolean };
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 type Board = Cell[][];
 
-interface ManualBoardProps {
-	onSubmitBoard: (board: Board) => void; // Prop to submit the custom board to the main app
-}
 
-export default function ManualBoard({ onSubmitBoard }: ManualBoardProps) {
+export default function ManualBoard() {
 	const initialBoard = generateEmptyBoard();
 	const [board, setBoard] = useState<Board>(initialBoard);
 	const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
@@ -43,12 +40,6 @@ export default function ManualBoard({ onSubmitBoard }: ManualBoardProps) {
 		setDuplicates(findDuplicates(newBoard.map(row => row.map(cell => cell.value))));
 	};
 
-	const handleSubmit = () => {
-		onSubmitBoard(board);  // Submit the custom board
-		navigate('/');  // Navigate back to the App page with the new board
-	};
-
-
 	return (
 		<div className='manual-grid-container'>
 			<Board board={board} onCellClick={handleCellClick} duplicates={duplicates}></Board>
@@ -57,8 +48,8 @@ export default function ManualBoard({ onSubmitBoard }: ManualBoardProps) {
 				selectedValue={selectedNumber} 
 				board={board} 
 				verifyOrSubmit={false}
-				onSubmit={handleSubmit} />
-		</div>
+				/>
+		</div> 
 	)
 }
 
